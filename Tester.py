@@ -83,5 +83,33 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    def test_probable(self):
+        b = BigramProbabilityParser()
+
+        b.load("file1.txt")
+
+        expected = "name"
+        actual = b.get_probable_word("my")
+
+        self.assertEqual(expected, actual)
+
+    def test_probable_with_ignore(self):
+        b = BigramProbabilityParser()
+        b.load("file2.txt")
+
+        expected = "for"
+        actual = b.get_probable_word("looking")
+
+        self.assertEqual(actual, expected)
+
+        b = BigramProbabilityParser()
+        b.ignore_list = ['for', 'a', 'like']
+        b.load("file2.txt")
+
+        expected = "carrot"
+        actual = b.get_probable_word("looking")
+
+        self.assertEqual(actual, expected)
+
 if __name__ == '__main__':
     unittest.main()

@@ -12,8 +12,8 @@ class BigramProbabilityParser():
             for line in file_handle:
                 all_lines += all_lines + " " + line
 
-            clean_line = self.clean(line)
-            bigrams = self.extract(clean_line)
+            clean_lines = self.clean(all_lines)
+            bigrams = self.extract(clean_lines)
             self.add(bigrams)
 
     def get_unique_words_count(self):
@@ -69,5 +69,29 @@ class BigramProbabilityParser():
 
         return None
 
+    def get_probable_word(self, first_word):
+        probable_word = None
+
+        if first_word in self.db:
+            second_words = self.db[first_word]
+
+            most_probable = None
+            highest_count = None
+
+            for second_word in second_words:
+                if highest_count is None:
+                    most_probable = second_word
+                    highest_count = second_words[second_word]
+                    continue
+
+                current_count = second_words[second_word]
+
+                if current_count > highest_count:
+                    highest_count = current_count
+                    most_probable = second_word
+
+            probable_word = most_probable
+
+        return probable_word
 
 
