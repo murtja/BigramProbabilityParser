@@ -2,6 +2,7 @@ class BigramProbabilityParser():
 
     def __init__(self):
         self.db = {}
+        self.ignore_list = []
 
     def load(self, filename):
 
@@ -44,6 +45,9 @@ class BigramProbabilityParser():
         last_word = None
 
         for word in clean_string.split():
+            if word in self.ignore_list:
+                continue
+
             if last_word is None:
                 last_word = word
                 continue

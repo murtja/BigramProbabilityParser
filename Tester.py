@@ -52,5 +52,36 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    ######################################################################
+    # Increment 2
+    ######################################################################
+
+    def test_ignore_words(self):
+        b = BigramProbabilityParser()
+        b.ignore_list = ['my', 'is']
+
+        str = "Hello, my name is joe. Bye! Bye!"
+
+        cleaned_str = b.clean(str)
+        bigrams = b.extract(cleaned_str)
+
+        b.add(bigrams)
+
+        expected = 4
+        actual = b.get_unique_words_count()
+
+        self.assertEqual(expected, actual)
+
+    def test_full_with_ignore(self):
+        b = BigramProbabilityParser()
+        b.ignore_list = ['my', 'is']
+
+        b.load("file1.txt")
+
+        expected = 9
+        actual = b.get_bigram_count()
+
+        self.assertEqual(expected, actual)
+
 if __name__ == '__main__':
     unittest.main()
